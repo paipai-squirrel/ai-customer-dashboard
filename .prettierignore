@@ -1,0 +1,6 @@
+dist
+node_modules
+coverage
+.codex-temp
+playwright-report
+test-results
