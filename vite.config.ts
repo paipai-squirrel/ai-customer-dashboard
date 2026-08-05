@@ -7,6 +7,11 @@ const sentryBuildEnabled = Boolean(
   process.env.SENTRY_ORG &&
   process.env.SENTRY_PROJECT,
 );
+const release =
+  process.env.GITHUB_SHA ??
+  process.env.VERCEL_GIT_COMMIT_SHA ??
+  process.env.npm_package_version ??
+  "dev";
 
 // https://vite.dev/config/
 export default defineConfig({
@@ -18,7 +23,7 @@ export default defineConfig({
             authToken: process.env.SENTRY_AUTH_TOKEN,
             org: process.env.SENTRY_ORG,
             project: process.env.SENTRY_PROJECT,
-            release: { name: process.env.GITHUB_SHA },
+            release: { name: release },
             sourcemaps: { filesToDeleteAfterUpload: ["dist/**/*.map"] },
             telemetry: false,
           }),
@@ -26,11 +31,7 @@ export default defineConfig({
       : []),
   ],
   define: {
-    __APP_VERSION__: JSON.stringify(
-      process.env.GITHUB_SHA?.slice(0, 7) ??
-        process.env.npm_package_version ??
-        "dev",
-    ),
+    __APP_VERSION__: JSON.stringify(release),
   },
   build: {
     sourcemap: "hidden",
