@@ -17,6 +17,24 @@ declare global {
   }
 }
 
+let sentryInitialized = false;
+
+export function initializeMonitoring() {
+  const dsn = import.meta.env.VITE_SENTRY_DSN;
+  if (!dsn || sentryInitialized) return false;
+  Sentry.init({
+    dsn,
+    environment:
+      import.meta.env.VITE_SENTRY_ENVIRONMENT ?? import.meta.env.MODE,
+    release: __APP_VERSION__,
+    sendDefaultPii: false,
+    integrations: [Sentry.browserTracingIntegration()],
+    tracesSampleRate: import.meta.env.PROD ? 0.1 : 0,
+  });
+  sentryInitialized = true;
+  return true;
+}
+
 export function reportRuntimeError(
   error: Error,
   context: RuntimeErrorContext = {},
@@ -29,6 +47,12 @@ export function reportRuntimeError(
     occurredAt: new Date().toISOString(),
     context,
   };
+  if (sentryInitialized) {
+    Sentry.captureException(error, {
+      tags: { release: payload.release },
+      extra: { componentStack: context.componentStack },
+    });
+  }
   window.__DASHBOARD_ERROR_REPORTER__?.(payload);
   const endpoint = import.meta.env.VITE_ERROR_REPORT_URL;
   if (endpoint) {
@@ -44,3 +68,4 @@ export function reportRuntimeError(
     console.error("dashboard-runtime-error", payload);
   }
 }
+import * as Sentry from "@sentry/react";

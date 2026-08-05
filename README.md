@@ -65,9 +65,9 @@ scripts/              # 性能预算等工程脚本
 
 ## 环境与错误监控
 
-复制 `.env.example` 为 `.env.local`。`VITE_ERROR_REPORT_URL` 可选；配置后，未被页面处理的 React 渲染错误会携带页面地址、构建版本、时间和堆栈发送到该 HTTP 接口。
+复制 `.env.example` 为 `.env.local`，配置 `VITE_SENTRY_DSN` 后启用 Sentry 浏览器异常与性能追踪。事件包含页面、环境、发布版本、错误堆栈和 React 组件堆栈，默认不发送个人身份信息。`VITE_ERROR_REPORT_URL` 仍可作为自有监控端点后备。
 
-生产构建会生成 Source Map。部署时应将 Source Map 上传到选定的监控平台，并避免将其公开给不受信任的用户。
+生产构建使用 GitHub SHA 作为发布版本。当 CI 配置 `SENTRY_AUTH_TOKEN`、`SENTRY_ORG` 和 `SENTRY_PROJECT` 后，会自动上传 Source Map，并在上传成功后从公开静态目录删除。
 
 ## CI 验收
 

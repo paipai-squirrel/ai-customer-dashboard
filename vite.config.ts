@@ -1,9 +1,30 @@
 import { configDefaults, defineConfig } from "vitest/config";
 import react from "@vitejs/plugin-react";
+import { sentryVitePlugin } from "@sentry/vite-plugin";
+
+const sentryBuildEnabled = Boolean(
+  process.env.SENTRY_AUTH_TOKEN &&
+  process.env.SENTRY_ORG &&
+  process.env.SENTRY_PROJECT,
+);
 
 // https://vite.dev/config/
 export default defineConfig({
-  plugins: [react()],
+  plugins: [
+    react(),
+    ...(sentryBuildEnabled
+      ? [
+          sentryVitePlugin({
+            authToken: process.env.SENTRY_AUTH_TOKEN,
+            org: process.env.SENTRY_ORG,
+            project: process.env.SENTRY_PROJECT,
+            release: { name: process.env.GITHUB_SHA },
+            sourcemaps: { filesToDeleteAfterUpload: ["dist/**/*.map"] },
+            telemetry: false,
+          }),
+        ]
+      : []),
+  ],
   define: {
     __APP_VERSION__: JSON.stringify(
       process.env.GITHUB_SHA?.slice(0, 7) ??
