@@ -1,3 +1,5 @@
+import * as Sentry from "@sentry/react";
+
 export interface RuntimeErrorContext {
   componentStack?: string | null;
 }
@@ -68,4 +70,3 @@ export function reportRuntimeError(
     console.error("dashboard-runtime-error", payload);
   }
 }
-import * as Sentry from "@sentry/react";

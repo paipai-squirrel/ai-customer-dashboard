@@ -8,6 +8,8 @@ jobs:
   quality:
     runs-on: ubuntu-latest
     env:
+      VITE_SENTRY_DSN: https://44c4bb7842f7edc06f93892d1db7128a@o4511855734685696.ingest.us.sentry.io/4511855741042688
+      VITE_SENTRY_ENVIRONMENT: production
       SENTRY_AUTH_TOKEN: ${{ secrets.SENTRY_AUTH_TOKEN }}
       SENTRY_ORG: 111-ml
       SENTRY_PROJECT: javascript-react
