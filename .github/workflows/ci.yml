@@ -8,11 +8,9 @@ jobs:
   quality:
     runs-on: ubuntu-latest
     env:
-      VITE_SENTRY_DSN: ${{ secrets.SENTRY_DSN }}
-      VITE_SENTRY_ENVIRONMENT: production
       SENTRY_AUTH_TOKEN: ${{ secrets.SENTRY_AUTH_TOKEN }}
-      SENTRY_ORG: ${{ vars.SENTRY_ORG }}
-      SENTRY_PROJECT: ${{ vars.SENTRY_PROJECT }}
+      SENTRY_ORG: 111-ml
+      SENTRY_PROJECT: javascript-react
     steps:
       - uses: actions/checkout@v4
       - uses: actions/setup-node@v4

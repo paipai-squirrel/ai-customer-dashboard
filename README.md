@@ -87,4 +87,4 @@ npm ci
 
 ## 性能预算
 
-预算保存在 `performance-budget.json`。当前限制为 JavaScript 300 KB、CSS 50 KB、全部构建文件 400 KB；超过预算会使 CI 失败。预算调整应通过代码评审，并解释体积增长原因。
+预算保存在 `performance-budget.json`。接入启动期 Sentry 监控后，当前限制为 JavaScript 375 KB、CSS 50 KB、全部构建文件 410 KB；超过预算会使 CI 失败。预算仅保留少量余量，后续调整应通过代码评审并解释体积增长原因。

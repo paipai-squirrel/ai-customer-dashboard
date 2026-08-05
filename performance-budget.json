@@ -1,5 +1,5 @@
 {
-  "maxJavaScriptBytes": 300000,
+  "maxJavaScriptBytes": 375000,
   "maxCssBytes": 50000,
-  "maxTotalBytes": 400000
+  "maxTotalBytes": 410000
 }
